@@ -16,7 +16,7 @@ module.exports = {
     //     other: './src/other.js',
     //     test: './src/test.js'
     // },
-    entry: './src/index.js',
+    entry: './src/hotCss.js',
     mode: 'development', // development 开发模式; production 生产模式; none 报警告
     output: {
         path: path.resolve(__dirname, './dist'),   // 绝对路径的字符串
@@ -61,6 +61,7 @@ module.exports = {
         contentBase: path.resolve(__dirname, '/dist'),
         open: true,
         port: 9090,
+        hot: true,
         proxy: {
             '/api': {
                 target: 'http://localhost:9092'
