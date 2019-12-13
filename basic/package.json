@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack",
     "build": "webpack --config ./webpack.config.pro.js",
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server --hot-only"
   },
   "keywords": [],
   "author": "",

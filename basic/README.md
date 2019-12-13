@@ -37,3 +37,4 @@ npm install xxx -S 放在dependencies(应用依赖，业务依赖)      -S 是--
 npm install xxx -D 放在 devDependencies     -D 是--save -dev的缩写
 
 ## 通过webpack-dev-server 实现本地mock数据 服务器代理
+## 主流框架vue,react,angular 热模块替换见：https://webpack.docschina.org/guides/hot-module-replacement/
