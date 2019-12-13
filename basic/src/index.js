@@ -1,5 +1,6 @@
-import('./index.css');
-import('./a.css');
-import('./1.jpg');
+import axios from 'axios';
 
-cons.log('webpack index.js');
+axios.get('/api/info').then((res) => {
+    console.log(res);
+})
+

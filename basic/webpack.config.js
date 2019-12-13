@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     /**
@@ -51,8 +52,19 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack',
             template: './index.html',        // 使用哪个模版
-            filename: 'kkb.html'             // 模版存放在出口文件夹中的文件名
+            filename: 'index.html'             // 模版存放在出口文件夹中的文件名
         }),
-        new CleanWebpackPlugin()
-    ]
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        contentBase: path.resolve(__dirname, '/dist'),
+        open: true,
+        port: 9090,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:9092'
+            }
+        }
+    }
 }
