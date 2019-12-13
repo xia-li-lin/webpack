@@ -16,7 +16,7 @@ module.exports = {
     //     other: './src/other.js',
     //     test: './src/test.js'
     // },
-    entry: './src/index.js',
+    entry: './src/react-test.js',
     mode: 'development', // development 开发模式; production 生产模式; none 报警告
     output: {
         path: path.resolve(__dirname, './dist'),   // 绝对路径的字符串
@@ -45,6 +45,30 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    // options: {       // 已移至.babelrc文件
+                    //     presets: [
+                    //         [
+                    //             '@babel/preset-env',
+                    //             {
+                    //                 targets: {
+                    //                     "edge": "17",
+                    //                     "firefox": "60",
+                    //                     "chrome": "67",
+                    //                     "safari": "11.1"
+                    //                 },
+                    //                 corejs: 2,            // 新版本需要指定核⼼心库版本
+                    //                 useBuiltIns: "usage", // 按需注加载
+                    //             }
+                    //         ]
+                    //     ]
+                    // }
+                }
             }
         ]
     },
