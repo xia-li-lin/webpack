@@ -23,6 +23,12 @@ module.exports = {
     mode: 'development', // development 开发模式; production 生产模式; none 报警告
     output: mpa.output,
     devtool: 'cheap-module-eval-source-map',      // none:不开启sourceMap source-map：开启
+    watch: true,
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000
+    },
     module: {
         rules: [
             {
