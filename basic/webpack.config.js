@@ -3,6 +3,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const mpa = require('./mpa.js');
+
+console.log(mpa);
 
 module.exports = {
     /**
@@ -16,13 +19,9 @@ module.exports = {
     //     other: './src/other.js',
     //     test: './src/test.js'
     // },
-    entry: './src/react-test.js',
+    entry: mpa.entry,
     mode: 'development', // development 开发模式; production 生产模式; none 报警告
-    output: {
-        path: path.resolve(__dirname, './dist'),   // 绝对路径的字符串
-        // filename: '[name]_[chunkhash:8].js'       // name是占位符
-        filename: '[name].js'       // name是占位符
-    },
+    output: mpa.output,
     devtool: 'cheap-module-eval-source-map',      // none:不开启sourceMap source-map：开启
     module: {
         rules: [
@@ -72,15 +71,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'webpack',
-            template: './index.html',        // 使用哪个模版
-            filename: 'index.html'             // 模版存放在出口文件夹中的文件名
-        }),
-        new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin()
-    ],
+    plugins: mpa.plugins,
     devServer: {
         contentBase: path.resolve(__dirname, '/dist'),
         open: true,
