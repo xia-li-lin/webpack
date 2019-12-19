@@ -39,7 +39,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),   // 绝对路径的字符串
         // filename: '[name]_[chunkhash:8].js'       // name是占位符
-        filename: '[name].js'       // name是占位符
+        filename: 'js/[name]_[hash:6].js',       // name是占位符
+        // publicPath:'//kkb.com/assets/'      // 前提：得有cdn服务器，确保静态资源文件的上传与否
     },
     plugins: [
         ...htmlWebpackPlugins,

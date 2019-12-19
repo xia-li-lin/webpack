@@ -3,9 +3,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const mpa = require('./mpa.js');
-
-console.log(mpa);
+let onoff = true;  // true 单入口打包配置    false 多入口打包配置
 
 module.exports = {
     /**
@@ -19,7 +19,7 @@ module.exports = {
     //     other: './src/other.js',
     //     test: './src/test.js'
     // },
-    entry: mpa.entry,
+    entry: onoff ? './src/react-test.js' : mpa.entry,
     mode: 'development', // development 开发模式; production 生产模式; none 报警告
     output: mpa.output,
     devtool: 'cheap-module-eval-source-map',      // none:不开启sourceMap source-map：开启
@@ -38,10 +38,26 @@ module.exports = {
                  * css-loader 把代码编译到js里
                  * style-loader 把代码以DOM的方式插入到head标签里
                  */
+                include: path.resolve(__dirname, './src'),
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /\.less$/,
+                include: path.resolve(__dirname, './src'),
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            },
+            {
                 test: /\.(jpg|png|gif|jpeg)$/,
+                include: path.resolve(__dirname, './src'),
                 use: [
                     {
                         loader: 'file-loader',
@@ -53,31 +69,36 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                include: path.resolve(__dirname, './src'),
+                // exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
-                    // options: {       // 已移至.babelrc文件
-                    //     presets: [
-                    //         [
-                    //             '@babel/preset-env',
-                    //             {
-                    //                 targets: {
-                    //                     "edge": "17",
-                    //                     "firefox": "60",
-                    //                     "chrome": "67",
-                    //                     "safari": "11.1"
-                    //                 },
-                    //                 corejs: 2,            // 新版本需要指定核⼼心库版本
-                    //                 useBuiltIns: "usage", // 按需注加载
-                    //             }
-                    //         ]
-                    //     ]
-                    // }
+                    loader: 'babel-loader'
                 }
             }
         ]
     },
-    plugins: mpa.plugins,
+    resolve: {
+        modules: [path.resolve(__dirname, './node_modules')],
+        alias: {
+            '@': path.join(__dirname, './src/pages'),
+            'react': path.resolve(__dirname, './node_modules/react/umd/react.production.min.js'),
+            'react-dom': path.resolve(__dirname, './node_modules/react-dom/umd/react-dom.production.min.js')
+        },
+        extensions: ['.js', '.json', '.jsx', '.ts']
+    },
+    plugins: onoff ? [
+        new HtmlWebpackPlugin({
+            title: "京东商城",
+            template: "./index.html",
+            filename: "index.html"
+        }),
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name]_[contenthash:6].css',
+            chunkFilename: "[id].css"
+        })
+    ] : mpa.plugins,
     devServer: {
         contentBase: path.resolve(__dirname, '/dist'),
         open: true,

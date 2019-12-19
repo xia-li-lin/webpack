@@ -4,8 +4,8 @@
 //     console.log(res);
 // })
 
-import number from './number';
-import counter from './counter';
+import number from './number.js';
+import counter from './counter.js';
 
 number();
 counter();
