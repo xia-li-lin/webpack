@@ -1,9 +1,10 @@
-// webpack配置文件
+// webpack配置文件---完整版
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const mpa = require('./mpa.js');
 let onoff = true;  // true 单入口打包配置    false 多入口打包配置
 
@@ -62,7 +63,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]'
+                            name: 'images/[name].[ext]',
                         }
                     }
                 ]
@@ -90,13 +91,25 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "京东商城",
             template: "./index.html",
-            filename: "index.html"
+            filename: "index.html",
+            minify: {
+                // 压缩HTML⽂文件
+                removeComments: true, // 移除HTML中的注释
+                collapseWhitespace: true, // 删除空⽩白符与换⾏行行符
+                minifyCSS: true // 压缩内联css
+            }
         }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
             filename: 'css/[name]_[contenthash:6].css',
             chunkFilename: "[id].css"
+        }),
+        new OptimizeCSSAssetsPlugin({
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: {
+                discardComments: { removeAll: true }
+            }
         })
     ] : mpa.plugins,
     devServer: {

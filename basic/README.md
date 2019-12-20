@@ -43,3 +43,5 @@ npm install xxx -D 放在 devDependencies     -D 是--save -dev的缩写
 优化loader配置
 test include exclude三个配置项来缩⼩小loader的处理理范围
 推荐include
+## 图片压缩：
+https://www.npmjs.com/package/imagemin-webpack-plugin 一般交给服务端来处理。
