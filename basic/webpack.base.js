@@ -10,6 +10,33 @@ module.exports = {
         aggregateTimeout: 300,
         poll: 1000
     },
+    optimization: {
+        usedExports: true,
+        splitChunks: {
+            /**
+             * chunks:
+             * all 代表同步引入的数据和异步引入的数据都支持
+             */
+            chunks: "all",
+            name: true,
+            cacheGroups: {   // 缓存组
+                react: {
+                    test: /react|react-dom/,
+                    name: "react",
+                    priority:10
+                },
+                lodash: {
+                    test: /lodash/,
+                    name: "lodash",
+                    priority:5
+                },
+                default: {
+                    name: "other",
+                    priority:1
+                }
+            }
+        }
+    },
     module: {
         rules: [
             {

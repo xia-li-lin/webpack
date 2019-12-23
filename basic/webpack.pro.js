@@ -3,6 +3,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const baseConfig = require('./webpack.base');
 const webpackMerge = require('webpack-merge');
 const path = require('path');
+const PurifyCSS = require('purifycss-webpack');
+const glob = require('glob-all');
 
 const proConfig = {
     output: {
@@ -16,7 +18,6 @@ const proConfig = {
         aggregateTimeout: 300,
         poll: 1000
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             title: "京东商城",
@@ -34,6 +35,13 @@ const proConfig = {
             cssProcessorOptions: {
                 discardComments: { removeAll: true }
             }
+        }),
+        // 清楚无用css
+        new PurifyCSS({
+            paths: glob.sync([
+                path.resolve(__dirname, './src/*.html'),
+                path.resolve(__dirname, './src/*.js')
+            ])
         })
     ]
 }
