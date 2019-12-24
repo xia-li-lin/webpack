@@ -1,3 +1,4 @@
+//! 动态链接库建议使用在开发模式下，主要用于优化构建速度的；线上推荐用代码分割
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import _ from 'lodash';

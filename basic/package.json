@@ -11,6 +11,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=production webpack --config ./webpack.test.js",
     "dev": "webpack --config ./webpack.dev.js",
+    "dev-dll": "webpack --config ./webpack.dll.config.js",
     "build": "webpack --config ./webpack.pro.js",
     "server": "webpack-dev-server --hot-only",
     "watch": "webpack --watch"
@@ -24,6 +25,7 @@
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.7.4",
+    "add-asset-html-webpack-plugin": "^3.1.3",
     "autoprefixer": "^9.7.3",
     "axios": "^0.19.0",
     "babel-loader": "^8.0.6",
@@ -34,6 +36,7 @@
     "express": "^4.17.1",
     "file-loader": "^5.0.2",
     "glob-all": "^3.1.0",
+    "happypack": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",

@@ -1,6 +1,8 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HappyPack = require('happypack');   //! 优化loader的时间处理！！！
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });  // 共享进程
 
 module.exports = {
     entry: './src/react-test.js',
@@ -23,16 +25,16 @@ module.exports = {
                 react: {
                     test: /react|react-dom/,
                     name: "react",
-                    priority:10
+                    priority: 10
                 },
                 lodash: {
                     test: /lodash/,
                     name: "lodash",
-                    priority:5
+                    priority: 5
                 },
                 default: {
                     name: "other",
-                    priority:1
+                    priority: 1
                 }
             }
         }
@@ -42,7 +44,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 include: path.resolve(__dirname, './src'),
-                use: ['style-loader', 'css-loader']
+                // use: ['style-loader', 'css-loader']  //! 用happyPack替代
+                use: ['happypack/loader?id=css']
             },
             {
                 test: /\.less$/,
@@ -61,21 +64,12 @@ module.exports = {
             {
                 test: /\.(jpg|png|gif|jpeg)$/,
                 include: path.resolve(__dirname, './src'),
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'images/[name].[ext]',
-                        }
-                    }
-                ]
+                use: ['happypack/loader?id=pics']
             },
             {
                 test: /\.js$/,
                 include: path.resolve(__dirname, './src'),
-                use: {
-                    loader: 'babel-loader'
-                }
+                use: ['happypack/loader?id=babel']
             }
         ]
     },
@@ -93,6 +87,28 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/[name]_[contenthash:6].css',
             chunkFilename: "[id].css"
+        }),
+        new HappyPack({
+            id: 'css',
+            loaders: ['style-loader', 'css-loader'],
+            threadPool: happyThreadPool       // 处理模式的时候，开启几个子进程
+        }),
+        new HappyPack({
+            id: 'pics',
+            loaders: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'images/[name].[ext]',
+                    }
+                }
+            ],
+            threadPool: happyThreadPool
+        }),
+        new HappyPack({
+            id: 'babel',
+            loaders: ['babel-loader'],
+            threadPool: happyThreadPool
         })
     ]
 }

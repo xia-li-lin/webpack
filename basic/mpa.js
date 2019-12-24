@@ -23,7 +23,7 @@ const setMPA = () => {
                 chunks: [pathName],
                 inject: true
             })
-        )
+        )       
     });
 
     return {

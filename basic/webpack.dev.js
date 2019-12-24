@@ -1,8 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
 const baseConfig = require('./webpack.base');
 const webpackMerge = require('webpack-merge');
+const { DllReferencePlugin } = require('webpack');
+const webpack = require('webpack');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
+const HappyPack = require('happypack');   //! 优化loader的时间处理！！！
 
 const devConfig = {
     output: {
@@ -22,6 +25,12 @@ const devConfig = {
             title: "京东商城",
             template: "./index.html",
             filename: "index.html"
+        }),
+        new DllReferencePlugin({
+            manifest: require('./dll/react-manifest.json')
+        }),
+        new AddAssetHtmlWebpackPlugin({
+            filepath: path.resolve(__dirname, './dll/react.dll.js')
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
