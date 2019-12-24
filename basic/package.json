@@ -14,6 +14,7 @@
     "dev-dll": "webpack --config ./webpack.dll.config.js",
     "build": "webpack --config ./webpack.pro.js",
     "server": "webpack-dev-server --hot-only",
+    "mpa": "webpack --config ./webpack.mpa.config.js",
     "watch": "webpack --watch"
   },
   "keywords": [],
